@@ -12,6 +12,7 @@
 function CanvasLayer(options){
     this.options = options || {};
     this.paneName = this.options.paneName || 'labelPane';
+    this.zIndex = this.options.zIndex || 0;
     this._map = options.map;
     this.show();
 }
@@ -27,6 +28,7 @@ CanvasLayer.prototype.initialize = function(map){
     canvas.style.cssText = "position:absolute;"
                             + "left:0;" 
                             + "top:0;"
+                            + "z-index:" + this.zIndex + ";"
                             + "width:" + size.width + "px;"
                             + "height:" + size.height + "px";
     map.getPanes()[this.paneName].appendChild(canvas);
@@ -55,4 +57,12 @@ CanvasLayer.prototype.show = function(){
 
 CanvasLayer.prototype.hide = function(){
     this._map.removeOverlay(this);
+}
+
+CanvasLayer.prototype.setZIndex = function(zIndex){
+    this.canvas.style.zIndex = zIndex;
+}
+
+CanvasLayer.prototype.getZIndex = function(){
+    return this.zIndex;
 }
