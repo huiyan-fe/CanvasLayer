@@ -3,3 +3,4 @@
 
 ## 示例展示
 [绘制正方形示例](http://huiyan-fe.github.io/CanvasLayer/examples/point.html) 
+[绘制圆形动画示例](http://huiyan-fe.github.io/CanvasLayer/examples/animationcircle.html) 

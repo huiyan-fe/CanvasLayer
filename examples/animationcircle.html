@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>地图可视化</title>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=1XjLLEhZhQNUzd93EjU5nOGQ"></script>
+<script type="text/javascript" src="../src/CanvasLayer.js"></script>
+<style type="text/css">
+    html, body, #map{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+</head>
+<body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+    // 创建Map实例
+    var map = new BMap.Map("map"); 
+
+    map.centerAndZoom(new BMap.Point(116.405706, 39.927773), 12);     // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom();                            //启用滚轮放大缩小
+
+    map.setMapStyle({style:'midnight'});
+    </script>
+    <script type="text/javascript" src="animationcircle.js"></script>
+</body>
+</html>
+
