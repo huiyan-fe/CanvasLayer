@@ -48,12 +48,19 @@ Marker.prototype.draw = function () {
     var pixel = map.pointToPixel(this.location);
 
     ctx.beginPath();
+    ctx.save();
     ctx.arc(pixel.x, pixel.y, this._size, 0, Math.PI * 2, true);
+    if (this.options.style) {
+        for (var key in this.options.style) {
+            ctx[key] = this.options.style[key];
+        }
+    }
     ctx.closePath();
     ctx.strokeStyle = this.options.color || 'rgba(200, 200, 50, 1)';
     ctx.lineWidth = 3;
     ctx.stroke();
-    this._size += 0.8;
+    ctx.restore();
+    this._size += this.options.step || 0.8;
     if (this._size > this.size) {
         this._size = 0;
     }
@@ -81,4 +88,50 @@ addMarker(new Marker({
     location: new BMap.Point(116.405706, 39.927773),
     size: 25,
     color: 'rgba(250, 250, 50, 1)'
+}));
+
+addMarker(new Marker({
+    location: new BMap.Point(116.405706, 39.957773),
+    size: 15,
+    step: 0.5,
+    style: {
+        globalCompositeOperation: 'light',
+    },
+    color: 'rgba(250, 50, 50, 1)'
+}));
+
+addMarker(new Marker({
+    location: new BMap.Point(116.505706, 39.957773),
+    size: 15,
+    step: 0.5,
+    style: {
+        shadowColor: 'white',
+        globalCompositeOperation: 'light',
+        shadowBlur: 20
+    },
+    color: 'rgba(50, 50, 250, 1)'
+}));
+
+addMarker(new Marker({
+    location: new BMap.Point(116.505706, 39.957773),
+    size: 30,
+    step: 1.5,
+    style: {
+        shadowColor: 'white',
+        globalCompositeOperation: 'light',
+        shadowBlur: 20
+    },
+    color: 'rgba(50, 50, 250, 1)'
+}));
+
+addMarker(new Marker({
+    location: new BMap.Point(116.505706, 39.907773),
+    size: 30,
+    step: 2.3,
+    style: {
+        shadowColor: 'white',
+        globalCompositeOperation: 'light',
+        shadowBlur: 20
+    },
+    color: 'rgba(250, 250, 250, 1)'
 }));
