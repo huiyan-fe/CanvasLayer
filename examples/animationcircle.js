@@ -18,6 +18,8 @@ backCtx.globalCompositeOperation = 'copy';
 
 var markers = [];
 
+var animationFlag = true;
+
 function update() {
     if (!ctx) {
         return;
@@ -26,6 +28,10 @@ function update() {
     backCtx.drawImage(ctx.canvas, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    if (!animationFlag) {
+        return;
+    }
 
     for (var i = 0; i < markers.length; i++) {
         markers[i].draw();
@@ -68,6 +74,14 @@ Marker.prototype.draw = function () {
 
 Marker.prototype.dispose = function () {
 }
+
+map.addEventListener('movestart', function() {
+    animationFlag = false;
+});
+
+map.addEventListener('moveend', function() {
+    animationFlag = true;
+});
 
 function animateAction() {
     update();
