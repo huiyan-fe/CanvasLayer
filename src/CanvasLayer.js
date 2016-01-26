@@ -14,6 +14,7 @@ function CanvasLayer(options){
     this.paneName = this.options.paneName || 'labelPane';
     this.zIndex = this.options.zIndex || 0;
     this._map = options.map;
+    this._lastDrawTime = null;
     this.show();
 }
 
@@ -31,7 +32,7 @@ CanvasLayer.prototype.initialize = function(map){
     var that = this;
     map.addEventListener('resize', function () {
         that.adjustSize();
-        that.draw();
+        that._draw();
     });
     return this.canvas;
 }
@@ -46,6 +47,13 @@ CanvasLayer.prototype.adjustSize = function(){
 }
 
 CanvasLayer.prototype.draw = function(){
+    if (!this._lastDrawTime || new Date() - this._lastDrawTime > 1000) {
+        this._draw();
+    }
+    this._lastDrawTime = new Date();
+}
+
+CanvasLayer.prototype._draw = function(){
     var map = this._map;
     var size = map.getSize();
     var center = map.getCenter();
