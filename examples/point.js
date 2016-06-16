@@ -13,8 +13,6 @@ var canvasLayer = new CanvasLayer({
     update: update
 });
 
-var ctx = canvasLayer.canvas.getContext("2d");
-
 function update() {
     var ctx = this.canvas.getContext("2d");
 
