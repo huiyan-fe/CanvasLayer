@@ -47,10 +47,11 @@ CanvasLayer.prototype.adjustSize = function(){
 }
 
 CanvasLayer.prototype.draw = function(){
-    if (!this._lastDrawTime || new Date() - this._lastDrawTime > 10) {
-        this._draw();
-    }
-    this._lastDrawTime = new Date();
+    var self = this;
+    clearTimeout(self.timeoutID);
+    self.timeoutID = setTimeout(function () {
+        self._draw();
+    }, 15);
 }
 
 CanvasLayer.prototype._draw = function(){
