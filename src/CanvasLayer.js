@@ -23,11 +23,13 @@ CanvasLayer.prototype = new BMap.Overlay();
 CanvasLayer.prototype.initialize = function(map){
     this._map = map;
     var canvas = this.canvas = document.createElement("canvas");
+    let ctx = this.ctx = this.canvas.getContext('2d');
     canvas.style.cssText = "position:absolute;"
                             + "left:0;" 
                             + "top:0;"
                             + "z-index:" + this.zIndex + ";";
     this.adjustSize();
+    this.adjustRatio(ctx);
     map.getPanes()[this.paneName].appendChild(canvas);
     var that = this;
     map.addEventListener('resize', function () {
@@ -45,6 +47,24 @@ CanvasLayer.prototype.adjustSize = function(){
     canvas.style.width = canvas.width + "px";
     canvas.style.height = canvas.height + "px";
 }
+
+CanvasLayer.prototype.adjustRatio = function (ctx) {
+    let backingStore = ctx.backingStorePixelRatio ||
+        ctx.webkitBackingStorePixelRatio ||
+        ctx.mozBackingStorePixelRatio ||
+        ctx.msBackingStorePixelRatio ||
+        ctx.oBackingStorePixelRatio ||
+        ctx.backingStorePixelRatio || 1;
+    let pixelRatio = (window.devicePixelRatio || 1) / backingStore;
+    let canvasWidth = ctx.canvas.width;
+    let canvasHeight = ctx.canvas.height;
+    ctx.canvas.width = canvasWidth * pixelRatio;
+    ctx.canvas.height = canvasHeight * pixelRatio;
+    ctx.canvas.style.width = canvasWidth + 'px';
+    ctx.canvas.style.height = canvasHeight + 'px';
+    console.log(ctx.canvas.height, canvasHeight);
+    ctx.scale(pixelRatio, pixelRatio);
+};
 
 CanvasLayer.prototype.draw = function(){
     var self = this;
