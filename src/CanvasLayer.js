@@ -68,9 +68,11 @@ CanvasLayer.prototype.adjustRatio = function (ctx) {
 
 CanvasLayer.prototype.draw = function(){
     var self = this;
+    var args = arguments;
+    
     clearTimeout(self.timeoutID);
     self.timeoutID = setTimeout(function () {
-        self._draw();
+        self._draw.apply(self, args);
     }, 15);
 }
 
@@ -83,7 +85,7 @@ CanvasLayer.prototype._draw = function(){
         this.canvas.style.left = pixel.x - size.width / 2 + 'px';
         this.canvas.style.top = pixel.y - size.height / 2 + 'px';
         this.dispatchEvent('draw');
-        this.options.update && this.options.update.call(this);
+        this.options.update && this.options.update.apply(this, arguments);
     }
 }
 
