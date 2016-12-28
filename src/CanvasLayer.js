@@ -7,9 +7,9 @@
  * {
  *     map 地图实例对象
  * }
- */ 
-    
-function CanvasLayer(options){
+ */
+
+function CanvasLayer(options) {
     this.options = options || {};
     this.paneName = this.options.paneName || 'labelPane';
     this.zIndex = this.options.zIndex || 0;
@@ -20,18 +20,18 @@ function CanvasLayer(options){
 
 CanvasLayer.prototype = new BMap.Overlay();
 
-CanvasLayer.prototype.initialize = function(map){
+CanvasLayer.prototype.initialize = function (map) {
     this._map = map;
-    var canvas = this.canvas = document.createElement("canvas");
+    let canvas = this.canvas = document.createElement("canvas");
     let ctx = this.ctx = this.canvas.getContext('2d');
-    canvas.style.cssText = "position:absolute;"
-                            + "left:0;" 
-                            + "top:0;"
-                            + "z-index:" + this.zIndex + ";";
+    canvas.style.cssText = "position:absolute;" +
+        "left:0;" +
+        "top:0;" +
+        "z-index:" + this.zIndex + ";";
     this.adjustSize();
     this.adjustRatio(ctx);
     map.getPanes()[this.paneName].appendChild(canvas);
-    var that = this;
+    let that = this;
     map.addEventListener('resize', function () {
         that.adjustSize();
         that._draw();
@@ -39,9 +39,9 @@ CanvasLayer.prototype.initialize = function(map){
     return this.canvas;
 }
 
-CanvasLayer.prototype.adjustSize = function(){
-    var size = this._map.getSize();
-    var canvas = this.canvas;
+CanvasLayer.prototype.adjustSize = function () {
+    let size = this._map.getSize();
+    let canvas = this.canvas;
     canvas.width = size.width;
     canvas.height = size.height;
     canvas.style.width = canvas.width + "px";
@@ -66,22 +66,22 @@ CanvasLayer.prototype.adjustRatio = function (ctx) {
     ctx.scale(pixelRatio, pixelRatio);
 };
 
-CanvasLayer.prototype.draw = function(){
-    var self = this;
-    var args = arguments;
-    
+CanvasLayer.prototype.draw = function () {
+    let self = this;
+    let args = arguments;
+
     clearTimeout(self.timeoutID);
     self.timeoutID = setTimeout(function () {
         self._draw.apply(self, args);
     }, 15);
 }
 
-CanvasLayer.prototype._draw = function(){
-    var map = this._map;
-    var size = map.getSize();
-    var center = map.getCenter();
+CanvasLayer.prototype._draw = function () {
+    let map = this._map;
+    let size = map.getSize();
+    let center = map.getCenter();
     if (center) {
-        var pixel = map.pointToOverlayPixel(center);
+        let pixel = map.pointToOverlayPixel(center);
         this.canvas.style.left = pixel.x - size.width / 2 + 'px';
         this.canvas.style.top = pixel.y - size.height / 2 + 'px';
         this.dispatchEvent('draw');
@@ -89,26 +89,26 @@ CanvasLayer.prototype._draw = function(){
     }
 }
 
-CanvasLayer.prototype.getContainer = function(){
+CanvasLayer.prototype.getContainer = function () {
     return this.canvas;
 }
 
-CanvasLayer.prototype.show = function(){
+CanvasLayer.prototype.show = function () {
     if (!this.canvas) {
         this._map.addOverlay(this);
     }
     this.canvas.style.display = "block";
 }
 
-CanvasLayer.prototype.hide = function(){
+CanvasLayer.prototype.hide = function () {
     this.canvas.style.display = "none";
     //this._map.removeOverlay(this);
 }
 
-CanvasLayer.prototype.setZIndex = function(zIndex){
+CanvasLayer.prototype.setZIndex = function (zIndex) {
     this.canvas.style.zIndex = zIndex;
 }
 
-CanvasLayer.prototype.getZIndex = function(){
+CanvasLayer.prototype.getZIndex = function () {
     return this.zIndex;
 }
