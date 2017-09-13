@@ -78,15 +78,20 @@ CanvasLayer.prototype.draw = function () {
 
 CanvasLayer.prototype._draw = function () {
     let map = this._map;
-    let size = map.getSize();
-    let center = map.getCenter();
-    if (center) {
-        let pixel = map.pointToOverlayPixel(center);
-        this.canvas.style.left = pixel.x - size.width / 2 + 'px';
-        this.canvas.style.top = pixel.y - size.height / 2 + 'px';
-        this.dispatchEvent('draw');
-        this.options.update && this.options.update.apply(this, arguments);
+    this.canvas.style.left = - map.offsetX + 'px';
+    this.canvas.style.top = - map.offsetY + 'px';
+    this.dispatchEvent('draw');
+    this.options.update && this.options.update.apply(this, arguments);
+}
+
+CanvasLayer.prototype.adjustPostion = function (size, center) {
+    let result;
+    if (size % 2 === 0) {
+        result = center - size / 2;
+    } else {
+        result = (center - 1) - Math.floor(size / 2);
     }
+    return result;
 }
 
 CanvasLayer.prototype.getContainer = function () {
