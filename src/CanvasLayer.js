@@ -84,16 +84,6 @@ CanvasLayer.prototype._draw = function () {
     this.options.update && this.options.update.apply(this, arguments);
 }
 
-CanvasLayer.prototype.adjustPostion = function (size, center) {
-    let result;
-    if (size % 2 === 0) {
-        result = center - size / 2;
-    } else {
-        result = (center - 1) - Math.floor(size / 2);
-    }
-    return result;
-}
-
 CanvasLayer.prototype.getContainer = function () {
     return this.canvas;
 }
