@@ -34,6 +34,7 @@ CanvasLayer.prototype.initialize = function (map) {
     let that = this;
     map.addEventListener('resize', function () {
         that.adjustSize();
+        that.adjustRatio(ctx);
         that._draw();
     });
     return this.canvas;
